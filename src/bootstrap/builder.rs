@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::any::Any;
 use std::cell::{Cell, RefCell};
 use std::collections::BTreeSet;
@@ -326,120 +328,22 @@ pub enum Kind {
 impl<'a> Builder<'a> {
     fn get_step_descriptions(kind: Kind) -> Vec<StepDescription> {
         macro_rules! describe {
-            ($($rule:ty),+ $(,)?) => {{
-                vec![$(StepDescription::from::<$rule>()),+]
+            ($($rule:ty),* $(,)?) => {{
+                vec![$(StepDescription::from::<$rule>()),*]
             }};
         }
         match kind {
             Kind::Build => describe!(
-                compile::Std,
-                compile::Test,
-                compile::Rustc,
-                compile::CodegenBackend,
-                compile::StartupObjects,
-                tool::BuildManifest,
-                tool::Rustbook,
-                tool::ErrorIndex,
-                tool::UnstableBookGen,
-                tool::Tidy,
-                tool::Linkchecker,
-                tool::CargoTest,
-                tool::Compiletest,
-                tool::RemoteTestServer,
-                tool::RemoteTestClient,
-                tool::RustInstaller,
-                tool::Cargo,
-                tool::Rls,
-                tool::Rustdoc,
-                tool::Clippy,
-                native::Llvm,
-                tool::Rustfmt,
-                tool::Miri,
-                native::Lld
             ),
             Kind::Check => describe!(
-                check::Std,
-                check::Test,
-                check::Rustc,
-                check::CodegenBackend,
-                check::Rustdoc
             ),
             Kind::Test => describe!(
-                test::Tidy,
-                test::Ui,
-                test::RunPass,
-                test::CompileFail,
-                test::RunFail,
-                test::RunPassValgrind,
-                test::MirOpt,
-                test::Codegen,
-                test::CodegenUnits,
-                test::Assembly,
-                test::Incremental,
-                test::Debuginfo,
-                test::UiFullDeps,
-                test::RunPassFullDeps,
-                test::Rustdoc,
-                test::Pretty,
-                test::RunPassPretty,
-                test::RunFailPretty,
-                test::RunPassValgrindPretty,
-                test::Crate,
-                test::CrateLibrustc,
-                test::CrateRustdoc,
-                test::Linkcheck,
-                test::Cargotest,
-                test::Cargo,
-                test::Rls,
-                test::ErrorIndex,
-                test::Distcheck,
-                test::RunMakeFullDeps,
-                test::Nomicon,
-                test::Reference,
-                test::RustdocBook,
-                test::RustByExample,
-                test::TheBook,
-                test::UnstableBook,
-                test::RustcBook,
-                test::EmbeddedBook,
-                test::EditionGuide,
-                test::Rustfmt,
-                test::Miri,
-                test::Clippy,
-                test::CompiletestTest,
-                test::RustdocJSStd,
-                test::RustdocJSNotStd,
-                test::RustdocTheme,
-                test::RustdocUi,
-                // Run bootstrap close to the end as it's unlikely to fail
-                test::Bootstrap,
-                // Run run-make last, since these won't pass without make on Windows
-                test::RunMake,
             ),
-            Kind::Bench => describe!(test::Crate, test::CrateLibrustc),
+            Kind::Bench => describe!(
+            ),
             Kind::Doc => describe!(
-                doc::UnstableBook,
-                doc::UnstableBookGen,
-                doc::TheBook,
-                doc::Standalone,
-                doc::Std,
-                doc::Test,
-                doc::WhitelistedRustc,
-                doc::Rustc,
-                doc::Rustdoc,
-                doc::ErrorIndex,
-                doc::Nomicon,
-                doc::Reference,
-                doc::RustdocBook,
-                doc::RustByExample,
-                doc::RustcBook,
-                doc::CargoBook,
-                doc::EmbeddedBook,
-                doc::EditionGuide,
             ),
             Kind::Dist => describe!(
-                dist::Docs,
-                dist::RustcDocs,
                 dist::Mingw,
                 dist::Rustc,
                 dist::DebuggerScripts,
@@ -448,26 +352,12 @@ impl<'a> Builder<'a> {
                 dist::Src,
                 dist::PlainSourceTarball,
                 dist::Cargo,
-                dist::Rls,
-                dist::Rustfmt,
-                dist::Clippy,
-                dist::Miri,
                 dist::LlvmTools,
                 dist::Lldb,
                 dist::Extended,
                 dist::HashSign
             ),
             Kind::Install => describe!(
-                install::Docs,
-                install::Std,
-                install::Cargo,
-                install::Rls,
-                install::Rustfmt,
-                install::Clippy,
-                install::Miri,
-                install::Analysis,
-                install::Src,
-                install::Rustc
             ),
         }
     }
